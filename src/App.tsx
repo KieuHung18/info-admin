@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import ComponentsDemo from "./features/components-demo";
+import PersonalInfo from "./features/settings/personal-info";
 function App() {
+  const pageList = [
+    { path: "/", component: <>hi</> },
+    { path: "/*", component: <>notfound</> },
+    { path: "/components-demo", component: <ComponentsDemo /> },
+    { path: "/settings/personal-info", component: <PersonalInfo /> },
+  ];
+
+  const pages = pageList.map((p, i) => (
+    <Route key={i} path={p.path} element={p.component} />
+  ));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="text-neutral-light">
+      <Routes>{pages}</Routes>
     </div>
   );
 }
