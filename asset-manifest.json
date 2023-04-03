@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.553b57e6.css",
+    "main.js": "/static/js/main.aab6d0c6.js",
+    "static/js/787.3ce4cc4d.chunk.js": "/static/js/787.3ce4cc4d.chunk.js",
+    "static/media/MrsSaintDelafield-Regular.ttf": "/static/media/MrsSaintDelafield-Regular.5bf734a989314fb09a30.ttf",
+    "static/media/FuturaPT-Demi.woff2": "/static/media/FuturaPT-Demi.9427520fbb37a99905ea.woff2",
+    "static/media/FuturaPT-Heavy.woff2": "/static/media/FuturaPT-Heavy.1439b8f91a2fa4eab1f2.woff2",
+    "static/media/FuturaPT-Medium.woff2": "/static/media/FuturaPT-Medium.1f2725e37ef35704295e.woff2",
+    "static/media/Muli-italic.woff2": "/static/media/Muli-italic.494e1faa07d56c36643d.woff2",
+    "static/media/Muli-regular.woff2": "/static/media/Muli-regular.4922c23a53233c77a9c7.woff2",
+    "index.html": "/index.html",
+    "main.553b57e6.css.map": "/static/css/main.553b57e6.css.map",
+    "main.aab6d0c6.js.map": "/static/js/main.aab6d0c6.js.map",
+    "787.3ce4cc4d.chunk.js.map": "/static/js/787.3ce4cc4d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.553b57e6.css",
+    "static/js/main.aab6d0c6.js"
+  ]
+}
