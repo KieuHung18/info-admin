@@ -23,7 +23,7 @@ export default {
   },
   uploads: {
     profile(files: FormData) {
-      return backendRequest("POST", "/admin/upload-profile", files);
+      return backendRequest("POST", "/admin/upload-profile", files, true);
     },
   },
 };

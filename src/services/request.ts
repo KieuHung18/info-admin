@@ -3,15 +3,18 @@ import { backendUrl } from "./url";
 const backendRequest = async (
   method = "GET" || "POST" || "DELETE" || "OPTIONS",
   path = "",
-  payload?: any
+  payload?: any,
+  isFile?: boolean
 ) => {
   const url = backendUrl + path;
   const options: RequestInit = {
     method: method,
-    headers: {
-      // "Content-Type": "application/json",
-    },
   };
+  if (!isFile) {
+    options.headers = {
+      "Content-Type": "application/json",
+    };
+  }
   if (payload) {
     options.body = payload;
   }
