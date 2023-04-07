@@ -1,11 +1,12 @@
-import type { FormEvent, ReactNode } from "react";
 import React from "react";
+import type { FormEvent, ReactNode } from "react";
 import Input from "../../../components/common/input/input-field";
 import TextArea from "../../../components/common/input/text-area";
 import InputContainer from "../../../components/common/input/input-container";
 import apis from "../../../services/apis";
 import Button from "../../../components/common/button";
 import type { User } from "../../../services/model.types";
+import SingleMediaUploadForm from "../../../components/form/single-media-upload-form";
 
 const PersonalInfo = () => {
   const user: User = {
@@ -16,21 +17,38 @@ const PersonalInfo = () => {
     hashPassword: "",
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    console.log(user);
-    apis.users.create(user);
+    const error = await apis.users.create(user);
+    if (error) {
+      alert(error);
+    } else {
+      alert("success");
+    }
   };
   const Title = (props: { children?: ReactNode | undefined }) => (
     <span className="col-span-full font-futura font-bold text-[18px]">
       {props.children}
     </span>
   );
+  const handlepProfileUpload = async (formData: FormData) => {
+    const error = await apis.uploads.profile(formData);
+    if (error) {
+      alert(error);
+    } else {
+      alert("success");
+    }
+  };
   return (
     <div className="page-container bg-primary-5">
       <div className="reponsive-container ">
-        <form onSubmit={handleSubmit}>
-          <div className="bg-primary-0 p-6 pb-8 grid grid-cols-3 grid-flow-row gap-4 w-[1366px] rounded border border-primary-15">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-primary-0 rounded border border-primary-15 p-6 pb-8"
+        >
+          <Title>Profile</Title>
+          <SingleMediaUploadForm onFileUpload={handlepProfileUpload} />
+          <div className=" grid grid-cols-3 grid-flow-row gap-4 w-[1366px] ">
             <Title>General infomation</Title>
             <InputContainer lable="First name" required>
               <Input
@@ -66,8 +84,8 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="Password" required>
               <Input
-                required
                 type="password"
+                required
                 defaultValue="123456"
                 onBlur={(e) => {
                   user.hashPassword = e.target.value;
@@ -115,11 +133,11 @@ const PersonalInfo = () => {
             <InputContainer lable="Description" className="col-span-full">
               <TextArea
                 onBlur={(e) => {
-                  user.intro = e.target.value.trim();
+                  user.description = e.target.value.trim();
                 }}
               />
             </InputContainer>
-            <Button className="col-span-full m-auto w-1/3" type="submit">
+            <Button className="col-span-full mr-auto" type="submit">
               Create
             </Button>
           </div>

@@ -28,12 +28,12 @@ const Button = (props: ButtonProps) => {
       data-te-ripple-color="light"
       {...props}
       className={clsx(
-        "rounded h-full w-full duration-300 flex items-center justify-center bg-black",
+        "rounded min-h-fit min-w-fit duration-300 flex items-center justify-center bg-black",
         variantClassname,
         size,
         props.className
       )}
-      disabled={props.loading}
+      disabled={props.loading || props.disabled}
     >
       {props.loading ? <Spinner></Spinner> : props.children}
     </button>

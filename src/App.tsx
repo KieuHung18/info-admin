@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import ComponentsDemo from "./features/components-demo";
 import PersonalInfo from "./features/settings/personal-info";
@@ -13,7 +14,10 @@ function App() {
   const pages = pageList.map((p, i) => (
     <Route key={i} path={p.path} element={p.component} />
   ));
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/settings/personal-info");
+  }, []);
   return (
     <div className="text-neutral-light">
       <Routes>{pages}</Routes>

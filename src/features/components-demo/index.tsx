@@ -8,7 +8,6 @@ import InputContainer from "../../components/common/input/input-container";
 const ComponentsDemo = () => {
   const testValue = (event: FormEvent | any) => {
     event.preventDefault();
-    console.log(event.target.elements); // from elements property
   };
   return (
     <div className="min-h-[100vh] bg-primary-5">

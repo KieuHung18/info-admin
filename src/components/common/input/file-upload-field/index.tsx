@@ -1,52 +1,44 @@
-import type { FormEvent } from "react";
-import React from "react";
+import type { FormEvent, Ref } from "react";
 import clsx from "clsx";
-import { useState } from "react";
-import apis from "../../../../services/apis";
+import React from "react";
 
 type FileUploadFieldProps = {
-  onFileChosen: () => void;
+  onFileChosen: (fileL: File[]) => void;
   filetypes: string[];
   errorMessage?: string;
-  placeholder?: React.ReactElement | string;
+  text?: string;
   className?: string;
   multiple?: boolean;
-  text?: React.ReactElement | string;
+  forwardedRef?: Ref<HTMLInputElement>;
 };
 
 const FileUploadField = (props: FileUploadFieldProps) => {
-  const [files, setFiles] = useState<File[]>([]);
+  let files: File[] = [];
   const handleOnChange = (event: FormEvent | any) => {
-    console.log(event.target.files);
     const tempFiles: File[] = [];
     for (const file of event.target.files) {
       tempFiles.push(file);
     }
-
-    setFiles(tempFiles);
-  };
-  const handleUploadFile = () => {
-    const formData = new FormData();
-    for (const file of files) {
-      formData.append("files", file);
-    }
-    apis.uploads.create(formData);
+    files = tempFiles;
+    props.onFileChosen(files);
   };
 
   return (
-    <div className=" w-fit h-fit border-dashed border-2">
-      <input
-        accept={["image/jpeg", "image/png"].join(", ")}
-        className="opacity-0 w-full"
-        multiple
-        onChange={handleOnChange}
-        type="file"
-      />
-      <p className="w-fit mx-auto">errorMessage</p>
-      <button type="button" onClick={handleUploadFile}>
-        upload
-      </button>
-      {files.length && <img src={URL.createObjectURL(files[0])} />}
+    <div className={clsx("", props.className)}>
+      <div className="border-dashed border-2 border-neutral-light">
+        <input
+          ref={props.forwardedRef}
+          accept={props.filetypes.join(", ")}
+          className="opacity-0 w-full h-full"
+          multiple={props.multiple}
+          onChange={handleOnChange}
+          type="file"
+        />
+      </div>
+      {props.text && <p>{props.text}</p>}
+      {props.errorMessage && (
+        <p className="w-fit mx-auto text-[#FF0000]">{props.errorMessage}</p>
+      )}
     </div>
   );
 };

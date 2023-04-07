@@ -22,8 +22,8 @@ export default {
     },
   },
   uploads: {
-    create(files: FormData) {
-      return backendRequest("POST", "admin/uploads", files);
+    profile(files: FormData) {
+      return backendRequest("POST", "/admin/upload-profile", files);
     },
   },
 };
