@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/info-admin/static/css/main.4b647171.css",
-    "main.js": "/info-admin/static/js/main.d42580e9.js",
+    "main.js": "/info-admin/static/js/main.ad6d121f.js",
     "static/js/787.3ce4cc4d.chunk.js": "/info-admin/static/js/787.3ce4cc4d.chunk.js",
     "static/media/MrsSaintDelafield-Regular.ttf": "/info-admin/static/media/MrsSaintDelafield-Regular.5bf734a989314fb09a30.ttf",
     "static/media/FuturaPT-Demi.woff2": "/info-admin/static/media/FuturaPT-Demi.9427520fbb37a99905ea.woff2",
@@ -11,11 +11,11 @@
     "static/media/Muli-regular.woff2": "/info-admin/static/media/Muli-regular.4922c23a53233c77a9c7.woff2",
     "index.html": "/info-admin/index.html",
     "main.4b647171.css.map": "/info-admin/static/css/main.4b647171.css.map",
-    "main.d42580e9.js.map": "/info-admin/static/js/main.d42580e9.js.map",
+    "main.ad6d121f.js.map": "/info-admin/static/js/main.ad6d121f.js.map",
     "787.3ce4cc4d.chunk.js.map": "/info-admin/static/js/787.3ce4cc4d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4b647171.css",
-    "static/js/main.d42580e9.js"
+    "static/js/main.ad6d121f.js"
   ]
 }
