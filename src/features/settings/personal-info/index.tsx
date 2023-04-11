@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import Input from "../../../components/common/input/input-field";
 import TextArea from "../../../components/common/input/text-area";
@@ -9,21 +9,43 @@ import type { User } from "../../../services/model.types";
 import SingleMediaUploadForm from "../../../components/form/single-media-upload-form";
 
 const PersonalInfo = () => {
-  const user: User = {
-    firstName: "",
-    midleName: "",
-    lastName: "",
-    email: "",
-    hashPassword: "",
+  const [user, setUser] = useState<User>({});
+  const [btnLoading, setBtnLoading] = useState(false);
+  const getUser = async () => {
+    //not have login yet
+    const [fetchData, error] = await apis.users.retrieve(27);
+    if (error) {
+      alert(error.message);
+    } else {
+      setUser(fetchData);
+    }
   };
-
+  useEffect(() => {
+    getUser();
+  }, []);
+  const updateUser = async (u: User) => {
+    //not have login yet
+    const [fetchData, error] = await apis.users.update(27, u);
+    if (error) {
+      alert(error.message);
+    } else {
+      alert(fetchData);
+    }
+  };
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const error = await apis.users.create(user);
+    setBtnLoading(true);
+    await updateUser(user);
+    setBtnLoading(false);
+  };
+
+  const handlepProfileUpload = async (formData: FormData) => {
+    const [fetchData, error] = await apis.uploads.create(formData);
     if (error) {
-      alert(error);
+      alert(error.message);
     } else {
-      alert("success");
+      user.profileUrl = fetchData[0];
+      updateUser(user);
     }
   };
   const Title = (props: { children?: ReactNode | undefined }) => (
@@ -31,14 +53,6 @@ const PersonalInfo = () => {
       {props.children}
     </span>
   );
-  const handlepProfileUpload = async (formData: FormData) => {
-    const error = await apis.uploads.profile(formData);
-    if (error) {
-      alert(error);
-    } else {
-      alert("success");
-    }
-  };
   return (
     <div className="page-container bg-primary-5">
       <div className="reponsive-container ">
@@ -47,12 +61,23 @@ const PersonalInfo = () => {
           className="bg-primary-0 rounded border border-primary-15 p-6 pb-8"
         >
           <Title>Profile</Title>
-          <SingleMediaUploadForm onFileUpload={handlepProfileUpload} />
+          {user.profileUrl ? (
+            <>
+              <SingleMediaUploadForm
+                value={user.profileUrl}
+                onFileUpload={handlepProfileUpload}
+              />
+            </>
+          ) : (
+            <SingleMediaUploadForm onFileUpload={handlepProfileUpload} />
+          )}
+
           <div className=" grid grid-cols-3 grid-flow-row gap-4 w-[1366px] ">
             <Title>General infomation</Title>
             <InputContainer lable="First name" required>
               <Input
                 required
+                defaultValue={user?.firstName}
                 onBlur={(e) => {
                   user.firstName = e.target.value.trim();
                 }}
@@ -60,13 +85,15 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="Midle name">
               <Input
+                defaultValue={user?.middleName}
                 onBlur={(e) => {
-                  user.midleName = e.target.value.trim();
+                  user.middleName = e.target.value.trim();
                 }}
               />
             </InputContainer>
             <InputContainer lable="Last name" required>
               <Input
+                defaultValue={user?.lastName}
                 required
                 onBlur={(e) => {
                   user.lastName = e.target.value.trim();
@@ -75,6 +102,7 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="Email" required>
               <Input
+                defaultValue={user?.email}
                 required
                 type="email"
                 onBlur={(e) => {
@@ -86,7 +114,7 @@ const PersonalInfo = () => {
               <Input
                 type="password"
                 required
-                defaultValue="123456"
+                defaultValue={user?.hashPassword}
                 onBlur={(e) => {
                   user.hashPassword = e.target.value;
                 }}
@@ -95,6 +123,7 @@ const PersonalInfo = () => {
             <Title>Contact</Title>
             <InputContainer lable="Phone">
               <Input
+                defaultValue={user?.phone}
                 type="number"
                 onBlur={(e) => {
                   user.phone = parseInt(e.target.value);
@@ -103,6 +132,7 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="Address">
               <Input
+                defaultValue={user?.address}
                 onBlur={(e) => {
                   user.address = e.target.value.trim();
                 }}
@@ -111,6 +141,7 @@ const PersonalInfo = () => {
             <Title>Detail infomation</Title>
             <InputContainer lable="You are">
               <Input
+                defaultValue={user?.intro}
                 onBlur={(e) => {
                   user.intro = e.target.value.trim();
                 }}
@@ -118,6 +149,7 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="About you">
               <Input
+                defaultValue={user?.aboutMe}
                 onBlur={(e) => {
                   user.aboutMe = e.target.value.trim();
                 }}
@@ -125,6 +157,7 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="Job titile">
               <Input
+                defaultValue={user?.title}
                 onBlur={(e) => {
                   user.title = e.target.value.trim();
                 }}
@@ -132,13 +165,18 @@ const PersonalInfo = () => {
             </InputContainer>
             <InputContainer lable="Description" className="col-span-full">
               <TextArea
+                defaultValue={user?.description}
                 onBlur={(e) => {
                   user.description = e.target.value.trim();
                 }}
               />
             </InputContainer>
-            <Button className="col-span-full mr-auto" type="submit">
-              Create
+            <Button
+              loading={btnLoading}
+              className="col-span-full mr-auto"
+              type="submit"
+            >
+              Update
             </Button>
           </div>
         </form>

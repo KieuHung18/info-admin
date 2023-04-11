@@ -10,7 +10,7 @@ export default {
     },
     update(userId: number, update: User) {
       const path = `/admin/users/${userId}`;
-      return backendRequest("POST", path, update);
+      return backendRequest("POST", path, JSON.stringify(update));
     },
     retrieve(userId: number) {
       const path = `/admin/users/${userId}`;
@@ -22,8 +22,8 @@ export default {
     },
   },
   uploads: {
-    profile(files: FormData) {
-      return backendRequest("POST", "/admin/upload-profile", files, true);
+    create(files: FormData) {
+      return backendRequest("POST", "/admin/uploads", files, true);
     },
   },
 };

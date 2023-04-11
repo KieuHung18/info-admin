@@ -20,21 +20,14 @@ const backendRequest = async (
   }
   let fetchData: any, error: any;
   await fetch(url, options)
-    .then(async (res) => {
-      if (res.status != 404) {
-        return res.json();
-      } else {
-        throw new Error("Apis not found");
-      }
-    })
+    .then(async (res) => res.json())
     .then((data: any) => {
       fetchData = data?.response;
       error = data?.error;
     })
     .catch((err) => {
-      alert(err);
+      error = err;
     });
   return [fetchData, error];
 };
-
 export { backendRequest };
