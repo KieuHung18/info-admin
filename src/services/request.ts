@@ -9,6 +9,7 @@ const backendRequest = async (
   const url = backendUrl + path;
   const options: RequestInit = {
     method: method,
+    credentials: "include",
   };
   if (!isFile) {
     options.headers = {

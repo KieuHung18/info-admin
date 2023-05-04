@@ -1,5 +1,5 @@
 export interface User {
-  id?: number;
+  id?: string;
   firstName?: string;
   middleName?: string;
   lastName?: string;
@@ -7,9 +7,17 @@ export interface User {
   hashPassword?: string;
   intro?: string;
   title?: string;
-  phone?: number;
+  phone?: string;
   address?: string;
   aboutMe?: string;
   description?: string;
   profileUrl?: string;
+}
+export interface Artwork {
+  id: string;
+  publicId: string;
+  url?: string;
+  name?: string;
+  feature?: boolean;
+  publish?: boolean;
 }

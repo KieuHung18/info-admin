@@ -3,7 +3,7 @@ import clsx from "clsx";
 import React from "react";
 
 type FileUploadFieldProps = {
-  onFileChosen: (fileL: File[]) => void;
+  onFileChosen: (file: File[]) => void;
   filetypes: string[];
   errorMessage?: string;
   text?: string;
@@ -25,7 +25,7 @@ const FileUploadField = (props: FileUploadFieldProps) => {
 
   return (
     <div className={clsx("", props.className)}>
-      <div className="border-dashed border-2 border-neutral-light">
+      <div className="border-dashed border-2 border-neutral-light h-full">
         <input
           ref={props.forwardedRef}
           accept={props.filetypes.join(", ")}

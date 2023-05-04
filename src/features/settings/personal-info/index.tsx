@@ -11,9 +11,8 @@ import SingleMediaUploadForm from "../../../components/form/single-media-upload-
 const PersonalInfo = () => {
   const [user, setUser] = useState<User>({});
   const [btnLoading, setBtnLoading] = useState(false);
-  const getUser = async () => {
-    //not have login yet
-    const [fetchData, error] = await apis.users.retrieve(27);
+  const getUser = async (refresh?: boolean) => {
+    const [fetchData, error] = await apis.auth.session(refresh);
     if (error) {
       alert(error.message);
     } else {
@@ -23,19 +22,19 @@ const PersonalInfo = () => {
   useEffect(() => {
     getUser();
   }, []);
-  const updateUser = async (u: User) => {
-    //not have login yet
-    const [fetchData, error] = await apis.users.update(27, u);
+  const updateUser = async () => {
+    const [fetchData, error] = await apis.users.update(user.id as string, user);
     if (error) {
       alert(error.message);
     } else {
+      getUser(true);
       alert(fetchData);
     }
   };
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setBtnLoading(true);
-    await updateUser(user);
+    await updateUser();
     setBtnLoading(false);
   };
 
@@ -44,8 +43,8 @@ const PersonalInfo = () => {
     if (error) {
       alert(error.message);
     } else {
-      user.profileUrl = fetchData[0];
-      updateUser(user);
+      user.profileUrl = fetchData[0].url;
+      updateUser();
     }
   };
   const Title = (props: { children?: ReactNode | undefined }) => (
@@ -55,7 +54,7 @@ const PersonalInfo = () => {
   );
   return (
     <div className="page-container bg-primary-5">
-      <div className="reponsive-container ">
+      <div className="responsive-container ">
         <form
           onSubmit={handleSubmit}
           className="bg-primary-0 rounded border border-primary-15 p-6 pb-8"
@@ -114,7 +113,7 @@ const PersonalInfo = () => {
               <Input
                 type="password"
                 required
-                defaultValue={user?.hashPassword}
+                defaultValue="123456"
                 onBlur={(e) => {
                   user.hashPassword = e.target.value;
                 }}
@@ -126,7 +125,7 @@ const PersonalInfo = () => {
                 defaultValue={user?.phone}
                 type="number"
                 onBlur={(e) => {
-                  user.phone = parseInt(e.target.value);
+                  user.phone = e.target.value;
                 }}
               />
             </InputContainer>
