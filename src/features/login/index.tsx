@@ -1,30 +1,17 @@
+import type { FormEvent } from "react";
 import Button from "../../components/common/button";
 import InputContainer from "../../components/common/input/input-container";
 import Input from "../../components/common/input/input-field";
 import apis from "../../services/apis";
-import type { FormEvent } from "react";
-import Cookies from "js-cookie";
 const Login = () => {
   const data = {
     email: "",
     password: "",
   };
-  const handleLogin = async (e: FormEvent) => {
+  const handleLogin = (e: FormEvent) => {
     e.preventDefault();
-    const [connection, error] = await apis.auth.login(data);
-    if (error) {
-      alert(error.message);
-    } else {
-      Cookies.set("sid", "session id", {
-        path: "",
-        secure: true,
-        sameSite: "None",
-        domain: ".github",
-      });
-      localStorage.setItem("authentication", connection);
-    }
+    apis.auth.login(data);
   };
-
   return (
     <div className="page-container bg-primary-5">
       <div className="responsive-container">
@@ -51,7 +38,7 @@ const Login = () => {
           <Button
             type="button"
             onClick={() => {
-              localStorage.clear();
+              apis.auth.logout();
             }}
           >
             Logout
