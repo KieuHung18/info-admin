@@ -35,5 +35,40 @@ export default {
       const path = `/admin/auth/login`;
       return backendRequest("POST", path, JSON.stringify(data));
     },
+    logout() {
+      const path = `/admin/auth/logout`;
+      return backendRequest("POST", path);
+    },
+  },
+  artworks: {
+    create(artwork: Artwork[]) {
+      const path = `/admin/artworks`;
+      return backendRequest("POST", path, JSON.stringify(artwork));
+    },
+    update(artworkId: string, update: Artwork) {
+      const path = `/admin/artworks/${artworkId}`;
+      return backendRequest("POST", path, JSON.stringify(update));
+    },
+    retrieve(artworkId: string) {
+      const path = `/admin/artworks/${artworkId}`;
+      return backendRequest("GET", path);
+    },
+    delete(artworkId: string) {
+      const path = `/admin/artworks/${artworkId}`;
+      return backendRequest("DELETE", path);
+    },
+    list() {
+      const path = `/admin/artworks/`;
+      return backendRequest("GET", path);
+    },
+  },
+  uploads: {
+    create(files: FormData) {
+      return backendRequest("POST", "/admin/uploads", files, true);
+    },
+    delete(publicId: string) {
+      const path = `/admin/uploads/${publicId}`;
+      return backendRequest("DELETE", path);
+    },
   },
 };

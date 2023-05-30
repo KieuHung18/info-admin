@@ -11,7 +11,6 @@ const backendRequest = async (
 <<<<<<< HEAD
     headers: {
       authentication: authentication,
-      "Content-Type": "application/x-www-form-urlencoded",
     },
 =======
 >>>>>>> parent of 8076ce5 (fix login)
