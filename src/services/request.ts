@@ -18,6 +18,7 @@ const backendRequest = async (
   const options: RequestInit = {
     headers: {
       authentication: authentication,
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     method: method,
     credentials: "include",
