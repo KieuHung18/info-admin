@@ -15,6 +15,7 @@ const Pagination = (props: PagenationProps) => {
   const array = Array.from(Array(props.numberOfPages).keys());
   const [currentPage, setCurrentPage] = useState(0);
   const [offSet, setOffSet] = useState(0);
+  const MAX_NAVIGATION = 3;
 
   return (
     <div className="font-muli text-[13px] mx-auto w-fit mt-11 md:mt-16">
@@ -32,7 +33,7 @@ const Pagination = (props: PagenationProps) => {
       >
         <FontAwesomeIcon size="sm" icon={faAngleLeft} />
       </button>
-      {currentPage > 1 && (
+      {currentPage > 1 && props.numberOfPages > MAX_NAVIGATION && (
         <>
           <button
             className="px-3"
@@ -47,7 +48,7 @@ const Pagination = (props: PagenationProps) => {
           <FontAwesomeIcon size="sm" icon={faEllipsis} />
         </>
       )}
-      {array.slice(offSet, offSet + 3).map((i) => {
+      {array.slice(offSet, offSet + MAX_NAVIGATION).map((i) => {
         return (
           <button
             key={i}
@@ -58,14 +59,17 @@ const Pagination = (props: PagenationProps) => {
             onClick={() => {
               if (i !== currentPage) {
                 setCurrentPage(i);
-                if (i > 0) {
-                  setOffSet(i - 1);
-                  if (i === props.numberOfPages - 1) {
-                    setOffSet(i - 2);
+                if (props.numberOfPages > MAX_NAVIGATION) {
+                  if (i > 0) {
+                    setOffSet(i - 1);
+                    if (i === props.numberOfPages - 1) {
+                      setOffSet(i - 2);
+                    }
+                  } else {
+                    setOffSet(i);
                   }
-                } else {
-                  setOffSet(i);
                 }
+
                 props.handleCurrentPage(i);
               }
             }}
@@ -74,21 +78,22 @@ const Pagination = (props: PagenationProps) => {
           </button>
         );
       })}
-      {currentPage < props.numberOfPages - 2 && (
-        <>
-          <FontAwesomeIcon size="sm" icon={faEllipsis} />
-          <button
-            className="px-3"
-            onClick={() => {
-              setOffSet(props.numberOfPages - 3);
-              setCurrentPage(props.numberOfPages - 1);
-              props.handleCurrentPage(props.numberOfPages - 1);
-            }}
-          >
-            {props.numberOfPages}
-          </button>
-        </>
-      )}
+      {currentPage < props.numberOfPages - 2 &&
+        props.numberOfPages > MAX_NAVIGATION && (
+          <>
+            <FontAwesomeIcon size="sm" icon={faEllipsis} />
+            <button
+              className="px-3"
+              onClick={() => {
+                setOffSet(props.numberOfPages - MAX_NAVIGATION);
+                setCurrentPage(props.numberOfPages - 1);
+                props.handleCurrentPage(props.numberOfPages - 1);
+              }}
+            >
+              {props.numberOfPages}
+            </button>
+          </>
+        )}
       <button
         className="pl-3"
         onClick={() => {

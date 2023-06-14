@@ -5,14 +5,14 @@ import TextArea from "../../../components/common/input/text-area";
 import InputContainer from "../../../components/common/input/input-container";
 import apis from "../../../services/apis";
 import Button from "../../../components/common/button";
-import type { User } from "../../../services/model.types";
+import type { UserProps } from "../../../services/model.types";
 import SingleMediaUploadForm from "../../../components/form/single-media-upload-form";
 
 const PersonalInfo = () => {
-  const [user, setUser] = useState<User>({});
+  const [user, setUser] = useState<UserProps>({});
   const [btnLoading, setBtnLoading] = useState(false);
-  const getUser = async (refresh?: boolean) => {
-    const [fetchData, error] = await apis.auth.session(refresh);
+  const getUser = async () => {
+    const [fetchData, error] = await apis.auth.session();
     if (error) {
       alert(error.message);
     } else {
@@ -27,7 +27,7 @@ const PersonalInfo = () => {
     if (error) {
       alert(error.message);
     } else {
-      getUser(true);
+      getUser();
       alert(fetchData);
     }
   };
@@ -40,10 +40,11 @@ const PersonalInfo = () => {
 
   const handlepProfileUpload = async (formData: FormData) => {
     const [fetchData, error] = await apis.uploads.create(formData);
+
     if (error) {
       alert(error.message);
     } else {
-      user.profileUrl = fetchData[0].url;
+      user.profile = fetchData[0];
       updateUser();
     }
   };
@@ -60,10 +61,10 @@ const PersonalInfo = () => {
           className="bg-primary-0 rounded border border-primary-15 p-6 pb-8"
         >
           <Title>Profile</Title>
-          {user.profileUrl ? (
+          {user.profile ? (
             <>
               <SingleMediaUploadForm
-                value={user.profileUrl}
+                value={user.profile.url}
                 onFileUpload={handlepProfileUpload}
               />
             </>

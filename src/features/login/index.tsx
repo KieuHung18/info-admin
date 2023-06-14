@@ -8,9 +8,16 @@ const Login = () => {
     email: "",
     password: "",
   };
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     apis.auth.login(data);
+    const [connection, error] = await apis.auth.login(data);
+    if (error) {
+      alert(error.message);
+    } else {
+      alert("Login success");
+      localStorage.setItem("authentication", connection);
+    }
   };
   return (
     <div className="page-container bg-primary-5">

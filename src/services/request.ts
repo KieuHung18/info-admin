@@ -7,21 +7,28 @@ const backendRequest = async (
   isFile?: boolean
 ) => {
   const url = backendUrl + path;
+  let authentication = "";
+
+  const auth = localStorage.getItem("authentication");
+
+  if (auth) {
+    authentication = auth;
+  }
   const options: RequestInit = {
-<<<<<<< HEAD
     headers: {
       authentication: authentication,
     },
-=======
->>>>>>> parent of 8076ce5 (fix login)
     method: method,
     credentials: "include",
   };
+
   if (!isFile) {
     options.headers = {
       "Content-Type": "application/json",
+      authentication: authentication,
     };
   }
+
   if (payload) {
     options.body = payload;
   }

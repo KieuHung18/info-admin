@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import ComponentsDemo from "./features/components-demo";
 import PersonalInfo from "./features/settings/personal-info";
 import Artwork from "./features/artwork";
 import Login from "./features/login";
+import Project from "./features/projects";
+import NewProject from "./features/projects/new";
 function App() {
   const pageList = [
     { path: "/", component: <>hi</> },
@@ -12,7 +12,10 @@ function App() {
     { path: "/components-demo", component: <ComponentsDemo /> },
     { path: "/settings/personal-info", component: <PersonalInfo /> },
     { path: "/login", component: <Login /> },
-    { path: "/artwork", component: <Artwork /> },
+    { path: "/artworks", component: <Artwork /> },
+    { path: "/projects", component: <Project /> },
+    { path: "/project", component: <NewProject /> },
+    { path: "/project/:id", component: <NewProject /> },
   ];
 
   const pages = pageList.map((p, i) => (

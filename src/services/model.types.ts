@@ -1,4 +1,4 @@
-export interface User {
+export interface UserProps {
   id?: string;
   firstName?: string;
   middleName?: string;
@@ -11,13 +11,25 @@ export interface User {
   address?: string;
   aboutMe?: string;
   description?: string;
-  profileUrl?: string;
+  profile?: ImageProps;
 }
-export interface Artwork {
+export interface ArtworkProps {
   id: string;
-  publicId: string;
-  url?: string;
+  image: ImageProps;
   name?: string;
   feature?: boolean;
   publish?: boolean;
+}
+export interface ProjectProps {
+  id?: string;
+  name?: string;
+  description?: string;
+  content?: string;
+  images?: ImageProps[];
+  publish?: boolean;
+  feature?: boolean;
+}
+export interface ImageProps {
+  publicId?: string;
+  url: string;
 }

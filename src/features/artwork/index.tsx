@@ -13,10 +13,10 @@ import Button from "../../components/common/button";
 import InputContainer from "../../components/common/input/input-container";
 import Input from "../../components/common/input/input-field";
 import apis from "../../services/apis";
-import type { Artwork } from "../../services/model.types";
+import type { ArtworkProps } from "../../services/model.types";
 const Artworks = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const [artworks, setArtworks] = useState<ArtworkProps[]>([]);
   const ITEMS_PER_PAGE = 8;
   const arts = artworks
     .slice(
@@ -38,7 +38,8 @@ const Artworks = () => {
       alert(error.message);
     } else {
       const featureFirst = fetchData.sort(
-        (a: Artwork, b: Artwork) => Number(b.feature) - Number(a.feature)
+        (a: ArtworkProps, b: ArtworkProps) =>
+          Number(b.feature) - Number(a.feature)
       );
       setArtworks(featureFirst);
     }
@@ -69,9 +70,9 @@ const Artworks = () => {
   );
 };
 
-const ArtworkCard = (props: { artwork: Artwork }) => {
+const ArtworkCard = (props: { artwork: ArtworkProps }) => {
   const [edit, setEdit] = useState(false);
-  const [artwork, setArtwork] = useState<Artwork>(props.artwork);
+  const [artwork, setArtwork] = useState<ArtworkProps>(props.artwork);
   const handleUpdate = async () => {
     const [fetchData, error] = await apis.artworks.update(artwork.id, artwork);
     if (error) {
@@ -85,7 +86,7 @@ const ArtworkCard = (props: { artwork: Artwork }) => {
     if (error) {
       alert(error.message);
     } else {
-      [fetchData, error] = await apis.uploads.delete(artwork.publicId);
+      [fetchData, error] = await apis.uploads.delete(artwork.image.publicId!);
 
       if (error) {
         alert(error.message);
@@ -115,7 +116,7 @@ const ArtworkCard = (props: { artwork: Artwork }) => {
         <FontAwesomeIcon icon={faTrash} size="lg" />
       </IconButton>
       <div className="mx-auto w-fit mb-20">
-        <img className="max-h-[200px] " src={artwork.url} alt="" />
+        <img className="max-h-[200px] " src={artwork.image.url} alt="" />
       </div>
       <div className="bottom-0 absolute flex w-full mb-4 text-neutral-dark">
         <button
@@ -177,6 +178,12 @@ const UploadsModal = () => {
     if (error) {
       alert(error.message);
     } else {
+      for (const uploadedImage of fetchData) {
+        uploadedImage.image = {
+          url: uploadedImage.url,
+          publicId: uploadedImage.publicId,
+        };
+      }
       [fetchData, error] = await apis.artworks.create(fetchData);
       if (error) {
         alert(error.message);
