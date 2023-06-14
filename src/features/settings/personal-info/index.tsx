@@ -11,6 +11,7 @@ import SingleMediaUploadForm from "../../../components/form/single-media-upload-
 const PersonalInfo = () => {
   const [user, setUser] = useState<UserProps>({});
   const [btnLoading, setBtnLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const getUser = async () => {
     const [fetchData, error] = await apis.auth.session();
     if (error) {
@@ -53,6 +54,85 @@ const PersonalInfo = () => {
       {props.children}
     </span>
   );
+
+  const customSection = user.metadata?.map((metadata, i) => {
+    return (
+      <InputContainer key={i} lable="Section name" className="ml-8" required>
+        <Input
+          required
+          defaultValue={metadata.section}
+          onBlur={(e) => {
+            metadata.section = e.target.value.trim();
+          }}
+        />
+        {metadata.sectionItems?.map((sectionItem, i) => {
+          return (
+            <div className="ml-8">
+              <InputContainer key={"sectionItem_" + i} lable="Name" required>
+                <Input
+                  required
+                  defaultValue={sectionItem.name}
+                  onBlur={(e) => {
+                    sectionItem.name = e.target.value.trim();
+                  }}
+                />
+              </InputContainer>
+              <InputContainer
+                key={"sectionItem_" + i}
+                lable="Experience"
+                required
+              >
+                <Input
+                  type="number"
+                  required
+                  defaultValue={sectionItem.experience}
+                  onBlur={(e) => {
+                    sectionItem.experience = parseInt(e.target.value);
+                  }}
+                />
+              </InputContainer>
+              <Button
+                className="col-span-full mr-auto my-4"
+                type="button"
+                onClick={() => {
+                  metadata.sectionItems?.splice(
+                    metadata.sectionItems.indexOf(sectionItem),
+                    1
+                  );
+                  setRefresh(!refresh);
+                }}
+              >
+                Delete section item
+              </Button>
+            </div>
+          );
+        })}
+        <Button
+          className="col-span-full mr-auto my-4"
+          type="button"
+          onClick={() => {
+            if (!metadata.sectionItems) {
+              metadata.sectionItems = [];
+            }
+            metadata.sectionItems.push({});
+            setRefresh(!refresh);
+          }}
+        >
+          Add section item
+        </Button>
+        <Button
+          className="col-span-full mr-auto"
+          type="button"
+          onClick={() => {
+            user.metadata?.splice(user.metadata.indexOf(metadata), 1);
+            setRefresh(!refresh);
+          }}
+        >
+          Delete section
+        </Button>
+      </InputContainer>
+    );
+  });
   return (
     <div className="page-container bg-primary-5">
       <div className="responsive-container ">
@@ -170,6 +250,22 @@ const PersonalInfo = () => {
                   user.description = e.target.value.trim();
                 }}
               />
+            </InputContainer>
+            <InputContainer lable="Custom section">
+              {customSection}
+              <Button
+                className="col-span-full mr-auto"
+                type="button"
+                onClick={() => {
+                  if (!user.metadata) {
+                    user.metadata = [];
+                  }
+                  user.metadata.push({});
+                  setRefresh(!refresh);
+                }}
+              >
+                Add section
+              </Button>
             </InputContainer>
             <Button
               loading={btnLoading}

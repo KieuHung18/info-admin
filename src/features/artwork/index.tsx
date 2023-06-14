@@ -183,7 +183,9 @@ const UploadsModal = () => {
           url: uploadedImage.url,
           publicId: uploadedImage.publicId,
         };
+        uploadedImage.publish = true;
       }
+      console.log(fetchData);
       [fetchData, error] = await apis.artworks.create(fetchData);
       if (error) {
         alert(error.message);
