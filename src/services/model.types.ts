@@ -12,6 +12,7 @@ export interface UserProps {
   aboutMe?: string;
   description?: string;
   profile?: ImageProps;
+  metadata?: UserMetadata[];
 }
 export interface ArtworkProps {
   id: string;
@@ -32,4 +33,12 @@ export interface ProjectProps {
 export interface ImageProps {
   publicId?: string;
   url: string;
+}
+export interface SectionItem {
+  name?: string;
+  experience?: number;
+}
+export interface UserMetadata {
+  section?: string;
+  sectionItems?: SectionItem[];
 }
