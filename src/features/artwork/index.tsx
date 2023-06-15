@@ -72,7 +72,7 @@ const Artworks = () => {
 
 const ArtworkCard = (props: { artwork: ArtworkProps }) => {
   const [edit, setEdit] = useState(false);
-  const [artwork, setArtwork] = useState<ArtworkProps>(props.artwork);
+  const [artwork, setArtwork] = useState<ArtworkProps>({ ...props.artwork });
   const handleUpdate = async () => {
     const [fetchData, error] = await apis.artworks.update(artwork.id, artwork);
     if (error) {
