@@ -77,14 +77,9 @@ const PersonalInfo = () => {
                   }}
                 />
               </InputContainer>
-              <InputContainer
-                key={"sectionItem_" + i}
-                lable="Experience"
-                required
-              >
+              <InputContainer key={"sectionItem_" + i} lable="Experience">
                 <Input
                   type="number"
-                  required
                   defaultValue={sectionItem.experience}
                   onBlur={(e) => {
                     sectionItem.experience = parseInt(e.target.value);
