@@ -75,7 +75,11 @@ const NewProject = () => {
     if (error) {
       alert(error.message);
     } else {
-      project.images = fetchData.concat(project.images);
+      if (project.images?.length) {
+        project.images = fetchData.concat(project.images);
+      } else {
+        project.images = fetchData;
+      }
       submitProject();
     }
   };
